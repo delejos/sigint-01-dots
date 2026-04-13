@@ -44,7 +44,7 @@ Four named persistent workspaces, each with its own wallpaper:
 > Requires a base Arch Linux install with network access. Run as your normal user (sudo access required for system files and package installation).
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/sigint-01-dots.git ~/sigint-01-dots
+git clone https://github.com/delejos/sigint-01-dots.git ~/sigint-01-dots
 cd ~/sigint-01-dots
 chmod +x install.sh
 ./install.sh
