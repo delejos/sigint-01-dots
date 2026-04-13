@@ -1,8 +1,33 @@
 # SIGINT-01 // Dotfiles
 
-> Arch Linux + Hyprland — military ops center themed desktop environment
+A clean, dark Arch Linux + Hyprland setup built for people who live in the terminal. Designed to stay out of your way — no visual noise, no distractions, everything where you expect it.
 
-A fully configured Arch Linux setup built around Hyprland with a dark tactical aesthetic: grid-based wallpapers, classified document UI styling, monospace fonts throughout, and a coherent dark blue/cyan color palette across every component.
+Built with IT work, pentesting, and VM-heavy workflows in mind. Four dedicated workspaces keep your environment organized without the clutter of a traditional desktop.
+
+---
+
+## Why this build
+
+Most desktop setups are either too minimal to be useful or too bloated to be fast. This one sits in between:
+
+- **Dark everywhere** — deep steel blue base, easy on the eyes during long sessions
+- **Keyboard-first** — rofi launcher, workspace switching, window management all on keybinds
+- **Low overhead** — Hyprland is a Wayland compositor that uses almost no resources idle
+- **Purpose-built workspaces** — one workspace per context so nothing bleeds into anything else
+- **Consistent look** — the same color palette flows through every component: terminal, bar, lock screen, fetch, monitor, wallpapers
+
+---
+
+## Workspaces
+
+| # | Name | Intended use |
+|---|------|--------------|
+| 1 | ALPHA | Primary terminal, system administration |
+| 2 | MIKE | General purpose, file management |
+| 3 | DELTA | Development, code editors, VMs |
+| 4 | ECHO | Browser, comms, research |
+
+Each workspace has its own wallpaper. Switching workspaces swaps the wallpaper automatically.
 
 ---
 
@@ -11,37 +36,24 @@ A fully configured Arch Linux setup built around Hyprland with a dark tactical a
 | Component | Package |
 |-----------|---------|
 | Window manager | `hyprland` |
-| Bar | `waybar` |
+| Status bar | `waybar` |
 | Lock screen | `hyprlock` |
 | Display manager | `greetd` + `tuigreet` |
 | Terminal | `kitty` |
 | Shell | `fish` + `starship` |
 | App launcher | `rofi-wayland` |
-| Fetch | `fastfetch` |
-| Monitor | `btop` |
+| System fetch | `fastfetch` |
+| Resource monitor | `btop` |
 | Editor | `neovim` |
 | Screenshots | `flameshot` |
 | Notifications | `dunst` |
-| Wallpapers | custom — generated via Python/Pillow |
-
----
-
-## Workspaces
-
-Four named persistent workspaces, each with its own wallpaper:
-
-| # | Name | Purpose |
-|---|------|---------|
-| 1 | ALPHA | Primary terminal / operations |
-| 2 | MIKE | General use |
-| 3 | DELTA | Development |
-| 4 | ECHO | Comms / browser |
+| Wallpapers | custom-generated via Python + Pillow |
 
 ---
 
 ## Install
 
-> Requires a base Arch Linux install with network access. Run as your normal user (sudo access required for system files and package installation).
+> Requires a base Arch Linux install with an internet connection. Run as your regular user — `sudo` access is needed for package installation and system config files.
 
 ```bash
 git clone https://github.com/delejos/sigint-01-dots.git ~/sigint-01-dots
@@ -50,35 +62,29 @@ chmod +x install.sh
 ./install.sh
 ```
 
-The script will:
-1. Install all packages via `pacman` and `yay` (AUR)
-2. Symlink all configs from the repo into `~/.config/`
-3. Generate PNG wallpapers into `~/Wallpapers/`
-4. Install system configs (`/etc/greetd/config.toml`)
-5. Enable `greetd`, `sshd`, and pipewire user services
-6. Set `fish` as your default shell
+The script handles everything:
+1. Installs all packages via `pacman` and `yay` (AUR helper installed automatically if missing)
+2. Symlinks configs from the repo into `~/.config/`
+3. Generates wallpapers into `~/Wallpapers/`
+4. Installs system configs (`/etc/greetd/config.toml`)
+5. Enables `greetd`, `sshd`, and pipewire services
+6. Sets `fish` as your default shell
 
-### sshd_config
+### Applying the hardened sshd_config
 
-The repo includes a hardened `sshd_config` (`PermitRootLogin no`, Protocol 2). To apply it:
+The repo includes a minimal `sshd_config` with `PermitRootLogin no` and Protocol 2. It is skipped by default so you can review it first. To apply it:
 
 ```bash
 INSTALL_SSHD_CONFIG=1 ./install.sh
 ```
-
-It is skipped by default so you can review it first.
-
-### Wallpaper source SVGs
-
-SVG source files for the wallpapers are in `wallpapers/`. The install script copies them to `~/Wallpapers/svg/`. The PNG wallpapers used by Hyprland are generated programmatically — see `scripts/generate_wallpapers.py`.
 
 ---
 
 ## Post-install
 
 - **btop theme** — open btop → `ESC` → Preferences → Color theme → select `sigint-01`
-- **Neovim plugins** — run `nvim` and let lazy.nvim sync on first launch
-- **Reboot** — greetd replaces your display manager; a reboot is recommended after install
+- **Neovim plugins** — run `nvim` on first launch and let lazy.nvim sync
+- **Reboot** — greetd takes over as the display manager; reboot to activate it
 
 ---
 
@@ -86,15 +92,15 @@ SVG source files for the wallpapers are in `wallpapers/`. The install script cop
 
 | Keys | Action |
 |------|--------|
-| `Super + Return` | Open terminal (kitty) |
+| `Super + Return` | Terminal (kitty) |
 | `Super + R` | App launcher (rofi) |
 | `Super + E` | File manager (thunar) |
-| `Super + L` | Lock screen (hyprlock) |
+| `Super + L` | Lock screen |
 | `Super + Q` | Close window |
 | `Super + F` | Fullscreen |
 | `Super + V` | Toggle floating |
-| `Super + 1-4` | Switch workspace + change wallpaper |
-| `Super + Shift + 1-4` | Move window to workspace |
+| `Super + 1–4` | Switch workspace |
+| `Super + Shift + 1–4` | Move window to workspace |
 | `Super + Arrow keys` | Move focus |
 | `Print` | Screenshot (flameshot) |
 
@@ -127,7 +133,7 @@ SVG source files for the wallpapers are in `wallpapers/`. The install script cop
 
 ## Color palette
 
-Dark steel blue base with cyan accents. Defined in `.config/hypr/scheme/current.conf` and mirrored across Waybar, Kitty, btop, and the wallpaper generator.
+Dark steel blue base with cyan accents. Consistent across every component.
 
 | Role | Hex |
 |------|-----|
