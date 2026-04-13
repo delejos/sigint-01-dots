@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 # ============================================================
-# SIGINT-01 — Dotfiles Install Script
+# SIGINT-01 — Install Script
 # Arch Linux + Hyprland military ops center build
 # ============================================================
 
 set -e
 
-DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 CONFIG_DIR="$HOME/.config"
 
 RED='\033[0;31m'; GREEN='\033[0;32m'; YELLOW='\033[1;33m'; CYAN='\033[0;36m'; NC='\033[0m'
@@ -92,14 +92,14 @@ link_configs() {
 
     # Directories
     for dir in hypr waybar kitty fish fastfetch btop nvim flameshot; do
-        symlink "$DOTFILES_DIR/.config/$dir" "$CONFIG_DIR/$dir"
+        symlink "$REPO_DIR/.config/$dir" "$CONFIG_DIR/$dir"
     done
 
     # Single file
-    symlink "$DOTFILES_DIR/.config/starship.toml" "$CONFIG_DIR/starship.toml"
+    symlink "$REPO_DIR/.config/starship.toml" "$CONFIG_DIR/starship.toml"
 
     # Wallpaper generator script
-    symlink "$DOTFILES_DIR/scripts/generate_wallpapers.py" "$HOME/generate_wallpapers.py"
+    symlink "$REPO_DIR/scripts/generate_wallpapers.py" "$HOME/generate_wallpapers.py"
 
     success "Configs linked."
 }
@@ -116,7 +116,7 @@ generate_wallpapers() {
 
     # Copy SVG sources to ~/Wallpapers/svg/
     mkdir -p "$HOME/Wallpapers/svg"
-    cp "$DOTFILES_DIR/wallpapers/"*.svg "$HOME/Wallpapers/svg/"
+    cp "$REPO_DIR/wallpapers/"*.svg "$HOME/Wallpapers/svg/"
 
     success "Wallpapers generated → ~/Wallpapers/"
 }
@@ -127,9 +127,9 @@ install_system_files() {
     info "Installing system config files (requires sudo)..."
 
     # greetd
-    if [ -f "$DOTFILES_DIR/system/greetd/config.toml" ]; then
+    if [ -f "$REPO_DIR/system/greetd/config.toml" ]; then
         sudo mkdir -p /etc/greetd
-        sudo cp "$DOTFILES_DIR/system/greetd/config.toml" /etc/greetd/config.toml
+        sudo cp "$REPO_DIR/system/greetd/config.toml" /etc/greetd/config.toml
         success "Installed /etc/greetd/config.toml"
     else
         warn "system/greetd/config.toml not found — skipping"
@@ -137,8 +137,8 @@ install_system_files() {
 
     # sshd_config — install only if explicitly requested
     if [ "${INSTALL_SSHD_CONFIG:-0}" = "1" ]; then
-        if [ -f "$DOTFILES_DIR/system/ssh/sshd_config" ]; then
-            sudo cp "$DOTFILES_DIR/system/ssh/sshd_config" /etc/ssh/sshd_config
+        if [ -f "$REPO_DIR/system/ssh/sshd_config" ]; then
+            sudo cp "$REPO_DIR/system/ssh/sshd_config" /etc/ssh/sshd_config
             success "Installed /etc/ssh/sshd_config"
         fi
     else
@@ -175,7 +175,7 @@ set_shell() {
 main() {
     echo ""
     echo -e "${CYAN}╔══════════════════════════════════════╗${NC}"
-    echo -e "${CYAN}║   SIGINT-01 // DOTFILES INSTALL   ║${NC}"
+    echo -e "${CYAN}║   SIGINT-01 // INSTALL   ║${NC}"
     echo -e "${CYAN}╚══════════════════════════════════════╝${NC}"
     echo ""
 

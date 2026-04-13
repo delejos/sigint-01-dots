@@ -1,4 +1,4 @@
-# SIGINT-01 // Dotfiles
+# SIGINT-01
 
 A clean, dark Arch Linux + Hyprland setup built for people who live in the terminal. Designed to stay out of your way — no visual noise, no distractions, everything where you expect it.
 

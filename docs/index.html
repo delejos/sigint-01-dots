@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SIGINT-01 // DOTFILES</title>
+  <title>SIGINT-01</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
@@ -38,17 +38,14 @@
       overflow-x: hidden;
     }
 
-    /* ── Grid background ── */
-    body::before {
-      content: '';
+    /* ── Code rain canvas ── */
+    #coderain {
       position: fixed;
       inset: 0;
-      background-image:
-        linear-gradient(var(--grid) 1px, transparent 1px),
-        linear-gradient(90deg, var(--grid) 1px, transparent 1px);
-      background-size: 48px 48px;
-      pointer-events: none;
       z-index: 0;
+      pointer-events: none;
+      opacity: 0.22;
+      filter: blur(2.5px);
     }
 
     /* ── Scanlines ── */
@@ -529,6 +526,9 @@
 </head>
 <body>
 
+<!-- ── Code rain background ── -->
+<canvas id="coderain"></canvas>
+
 <!-- ── Boot sequence ── -->
 <div id="boot">
   <div id="boot-log"></div>
@@ -545,7 +545,7 @@
   <!-- ── Hero ── -->
   <div id="hero" class="fadeup">
     <div class="label">SYSTEM DESIGNATION // LINUX WORKSTATION CONFIG</div>
-    <h1>SIGINT-01 <span class="sep">//</span> DOTFILES<span class="cursor"></span></h1>
+    <h1>SIGINT-01<span class="cursor"></span></h1>
     <p class="tagline">
       A dark, minimal Arch Linux + Hyprland environment built for IT operations,
       security research, and terminal-heavy workflows. No clutter. No distractions.
@@ -756,7 +756,7 @@
 </main>
 
 <footer>
-  <span>SIGINT-01 // DOTFILES &nbsp;—&nbsp; ARCH LINUX + HYPRLAND</span>
+  <span>SIGINT-01 &nbsp;—&nbsp; ARCH LINUX + HYPRLAND</span>
   <span>UNCLASSIFIED // <a href="https://github.com/delejos/sigint-01-dots" target="_blank">GITHUB</a></span>
 </footer>
 
@@ -774,7 +774,7 @@
     "Spawning Waybar ...",
     "Environment ready.",
     "",
-    "SIGINT-01 // DOTFILES — LOADING INTERFACE ...",
+    "SIGINT-01 — LOADING INTERFACE ...",
   ];
 
   const log = document.getElementById('boot-log');
@@ -798,6 +798,106 @@
     setTimeout(nextLine, i < 10 ? 80 : 160);
   }
   setTimeout(nextLine, 200);
+
+  // ── Typing code background ──
+  (function() {
+    const canvas = document.getElementById('coderain');
+    const ctx = canvas.getContext('2d');
+    const fontSize = 12;
+    const lineHeight = 22;
+
+    const snippets = [
+      'exec-once = waybar',
+      'exec-once = dunst',
+      'monitor=,preferred,auto,1',
+      'general {',
+      '  gaps_in = 3',
+      '  gaps_out = 6',
+      '  border_size = 1',
+      '  col.active_border = 0xff2A6080',
+      '  col.inactive_border = 0xff0F1E2B',
+      '  layout = dwindle',
+      '}',
+      'decoration {',
+      '  rounding = 0',
+      '  active_opacity = 0.95',
+      '  inactive_opacity = 0.75',
+      '  blur { enabled = true; size = 4 }',
+      '}',
+      'bind = $mod, Return, exec, kitty',
+      'bind = $mod, L, exec, hyprlock',
+      'bind = $mod, R, exec, rofi -show drun',
+      'workspace = 1, name:ALPHA, persistent:true',
+      'workspace = 2, name:MIKE, persistent:true',
+      'workspace = 3, name:DELTA, persistent:true',
+      'workspace = 4, name:ECHO, persistent:true',
+      'set -x EDITOR nvim',
+      'set -x TERMINAL kitty',
+      'alias ls="eza --icons"',
+      'alias cat="bat"',
+      'alias top="btop"',
+      'font_family JetBrains Mono Nerd Font',
+      'background_opacity 0.90',
+      'cursor_shape beam',
+      '[default_session]',
+      'command = "tuigreet --time"',
+      'theme[main_bg]="#070C12"',
+      'theme[hi_fg]="#7EB8C9"',
+      'theme[cpu_end]="#7EB8C9"',
+      'background-color: rgba(5,10,15,0.92)',
+      'border-bottom: 1px solid #1C3347',
+      'letter-spacing: 0.06em',
+      'format = "║  OS      "',
+      'format = "║  KERNEL  "',
+      'PermitRootLogin no',
+      'Protocol 2',
+      'AuthorizedKeysFile .ssh/authorized_keys',
+    ];
+
+    let lines = [];
+
+    function resize() {
+      canvas.width  = window.innerWidth;
+      canvas.height = window.innerHeight;
+      const count = Math.floor(canvas.height / lineHeight);
+      lines = Array.from({ length: count }, (_, i) => ({
+        y: i * lineHeight + lineHeight,
+        x: Math.random() * canvas.width * 0.6,
+        text: snippets[Math.floor(Math.random() * snippets.length)],
+        visible: 0,
+        speed: 0.3 + Math.random() * 0.4,
+        delay: Math.random() * 300,
+        color: Math.random() > 0.7 ? '#2A6080' : '#1C3347',
+      }));
+    }
+
+    let tick = 0;
+    function draw() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.font = fontSize + 'px "JetBrains Mono", monospace';
+      tick++;
+
+      for (const line of lines) {
+        if (tick < line.delay) continue;
+        line.visible = Math.min(line.text.length, line.visible + line.speed);
+        const shown = line.text.slice(0, Math.floor(line.visible));
+        ctx.fillStyle = line.color;
+        ctx.fillText(shown, line.x, line.y);
+
+        if (Math.floor(line.visible) >= line.text.length && Math.random() > 0.998) {
+          line.text = snippets[Math.floor(Math.random() * snippets.length)];
+          line.x = Math.random() * canvas.width * 0.6;
+          line.visible = 0;
+          line.speed = 0.3 + Math.random() * 0.4;
+          line.delay = tick + Math.random() * 200;
+        }
+      }
+    }
+
+    resize();
+    window.addEventListener('resize', resize);
+    setInterval(draw, 50);
+  })();
 
   // ── Lightbox ──
   function openLight(src, caption) {
