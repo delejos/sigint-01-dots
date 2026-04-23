@@ -1,6 +1,6 @@
 # SIGINT-01 // Sway Laptop
 
-> **Branch:** `sway-laptop` — Lenovo ThinkPad x280 / Intel UHD 620 variant
+> **Branch:** `sigint-01-sway` — Lenovo ThinkPad x280 / Intel UHD 620 variant
 > **Desktop build (Hyprland):** see [`master`](https://github.com/delejos/sigint-01/tree/master)
 
 A dark, minimal Sway setup for Intel laptop hardware. Same aesthetic, same workspace layout, same keybind philosophy as the master branch — built for Sway because it has rock-solid Intel iGPU support, runs cooler, and is more stable on ThinkPad hardware than Hyprland.
@@ -100,7 +100,7 @@ Each workspace has its own wallpaper. Switching workspaces swaps the wallpaper a
 ## Install
 
 ```bash
-git clone -b sway-laptop https://github.com/delejos/sigint-01.git ~/sigint-01
+git clone -b sigint-01-sway https://github.com/delejos/sigint-01.git ~/sigint-01
 cd ~/sigint-01
 chmod +x install.sh
 ./install.sh

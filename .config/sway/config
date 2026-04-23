@@ -1,6 +1,6 @@
 # SIGINT-01 // SWAY CONFIG
 # Target: Lenovo ThinkPad x280 — Intel UHD 620
-# Variant: sway-laptop branch
+# Variant: sigint-01-sway branch
 
 # ── Variables ────────────────────────────────────────────────
 set $mod Mod4
@@ -14,7 +14,6 @@ set $ws3 "DELTA"
 set $ws4 "ECHO"
 
 # ── Autostart ────────────────────────────────────────────────
-exec waybar
 exec dunst
 exec /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 exec wl-paste --type text --watch cliphist store
