@@ -33,7 +33,13 @@
         "format": "[{name}]",
         "on-click": "activate",
         "on-scroll-up": "swaymsg workspace next",
-        "on-scroll-down": "swaymsg workspace prev"
+        "on-scroll-down": "swaymsg workspace prev",
+        "persistent-workspaces": {
+            "ALPHA": [],
+            "MIKE":  [],
+            "DELTA": [],
+            "ECHO":  []
+        }
     },
 
     "clock": {

@@ -27,10 +27,20 @@ window#waybar {
     border-right: 1px solid #0A1520;
 }
 
-#workspaces button.active {
+#workspaces button.focused {
     color: #7EB8C9;
     background: rgba(10, 21, 32, 0.95);
     border-top: 1px solid #2A6080;
+}
+
+#workspaces button.visible {
+    color: #4A7A90;
+    border-top: 1px solid #1C3347;
+}
+
+#workspaces button.urgent {
+    color: #7A3030;
+    background: rgba(20, 5, 5, 0.8);
 }
 
 #workspaces button:hover {
@@ -57,10 +67,21 @@ window#waybar {
 #memory,
 #temperature,
 #network,
-#pulseaudio {
+#pulseaudio,
+#backlight,
+#battery {
     color: #4A7A90;
     padding: 0 10px;
     border-right: 1px solid #0F2030;
+}
+
+#battery.warning {
+    color: #C9A84A;
+}
+
+#battery.critical {
+    color: #7A3030;
+    background: rgba(20, 5, 5, 0.8);
 }
 
 #temperature.critical {
