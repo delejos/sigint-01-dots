@@ -1,7 +1,7 @@
 # SIGINT-01
 
 > **Branch:** `master` — Hyprland / desktop build (AMD/Intel, tested on M920q)
-> **Laptop variant (Sway + Intel):** see [`sway-laptop`](https://github.com/delejos/sigint-01/tree/sway-laptop)
+> **Laptop variant (Sway + Intel):** see [`sigint-01-sway`](https://github.com/delejos/sigint-01/tree/sigint-01-sway)
 
 A clean, dark Arch Linux + Hyprland setup built for people who live in the terminal. Designed to stay out of your way — no visual noise, no distractions, everything where you expect it.
 
